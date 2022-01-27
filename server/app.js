@@ -8,6 +8,9 @@ const connectDB = require("./db");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const multer = require("multer");
+const upload = multer({ dest: 'uploads/' });
+const { uploadFile } = require("./utils/s3");
 
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
