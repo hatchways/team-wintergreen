@@ -36,8 +36,8 @@ const profileSchema = new mongoose.Schema({
   },
   accountType: {
     type: String,
-    enum: ["petSitter", "petOwner"],
-    default: "petOwner",
+    enum: ["pet_sitter", "pet_owner"],
+    default: "pet_owner",
   },
 });
 
