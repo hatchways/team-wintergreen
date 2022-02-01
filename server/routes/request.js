@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.route("/").get(protect, getRequests);
 router.route("/").post(protect, makeRequest);
-router.route("/").put(protect, updateRequest);
+router.route("/:id").put(protect, updateRequest);
 
 module.exports = router;

@@ -10,7 +10,7 @@ exports.getRequests = asyncHandler(async (req, res, next) => {
 
   if (profile.accountType === "pet_owner") {
     const requests = await Request.find({ userId: req.user.id });
-    console.log(requests);
+
     res.status(200).json({
       success: {
         requests: requests,
@@ -55,7 +55,7 @@ exports.makeRequest = asyncHandler(async (req, res, next) => {
 // @desc Update request with approved or decline
 // @access Private
 exports.updateRequest = asyncHandler(async (req, res, next) => {
-  const request = await Request.findById(req.body.request.id);
+  const request = await Request.findById(req.params.id);
 
   if (!request) {
     res.status(400);
