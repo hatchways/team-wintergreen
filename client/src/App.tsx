@@ -14,6 +14,7 @@ import { Navbar } from './components/Navbar/Navbar';
 import Settings from './pages/Settings/Settings';
 import NotFound from './pages/NotFound/NotFound';
 import { AuthRoute } from './components/AuthRoute/AuthRoute';
+import { HelperProvider } from './context/useHelperContext';
 
 function App(): JSX.Element {
   return (
@@ -22,17 +23,19 @@ function App(): JSX.Element {
         <SnackBarProvider>
           <AuthProvider>
             <SocketProvider>
-              <CssBaseline />
-              <Navbar />
-              <Switch>
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Signup} />
-                <AuthRoute exact path="/dashboard" component={Dashboard} />
-                <AuthRoute path="/profile/settings" component={Settings} />
-                <Route path="*">
-                  <NotFound />
-                </Route>
-              </Switch>
+              <HelperProvider>
+                <CssBaseline />
+                <Navbar />
+                <Switch>
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/signup" component={Signup} />
+                  <AuthRoute exact path="/dashboard" component={Dashboard} />
+                  <AuthRoute path="/profile/settings" component={Settings} />
+                  <Route path="*">
+                    <NotFound />
+                  </Route>
+                </Switch>
+              </HelperProvider>
             </SocketProvider>
           </AuthProvider>
         </SnackBarProvider>

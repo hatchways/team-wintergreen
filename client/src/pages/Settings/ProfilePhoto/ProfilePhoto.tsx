@@ -9,6 +9,7 @@ import { useSnackBar } from '../../../context/useSnackbarContext';
 import { useState } from 'react';
 import { Input } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
+import { useHelper } from '../../../context/useHelperContext';
 
 import editProfilePhotoKey from '../../../helpers/APICalls/editProfilePhotoKey';
 import { DeleteOutline } from '@mui/icons-material';
@@ -33,7 +34,7 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ header, currentUser, curren
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
   const [isSubmitting, setSubmitting] = useState(false);
-  const [imageKey, setImagesKey] = useState(currentProfile.photoKey);
+  const { profilePhotoKey, updateProfilePhotoKey } = useHelper();
 
   const fileSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files!;
@@ -41,29 +42,29 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ header, currentUser, curren
     const promises = [];
     for (let i = 0; i < files.length; i++) {
       promises.push(postPhoto(files[i]));
-      Promise.all(promises)
-        .then((dataArray) => {
-          for (let j = 0; j < dataArray.length; j++) {
-            const data = dataArray[j];
-            if (data.error) {
-              console.error({ error: data.error.message });
-              updateSnackBarMessage(data.error.message);
-            } else if (data.success) {
-              const values = { photoKey: data.success.image as string };
-              editProfilePhotoKey(values);
-              setImagesKey(data.success.image as string);
-              updateSnackBarMessage('Photo updated!');
-            } else {
-              // should not get here from backend but this catch is for an unknown issue
-              console.error({ data });
-              updateSnackBarMessage('An unexpected error occurred. Please try again');
-            }
-          }
-        })
-        .then(() => {
-          setSubmitting(false);
-        });
     }
+    Promise.all(promises)
+      .then((dataArray) => {
+        for (let j = 0; j < dataArray.length; j++) {
+          const data = dataArray[j];
+          if (data.error) {
+            console.error({ error: data.error.message });
+            updateSnackBarMessage(data.error.message);
+          } else if (data.success) {
+            const values = { photoKey: data.success.image as string };
+            editProfilePhotoKey(values);
+            updateProfilePhotoKey(data.success.image as string);
+            updateSnackBarMessage('Photo updated!');
+          } else {
+            // should not get here from backend but this catch is for an unknown issue
+            console.error({ data });
+            updateSnackBarMessage('An unexpected error occurred. Please try again');
+          }
+        }
+      })
+      .then(() => {
+        setSubmitting(false);
+      });
   };
 
   return (
@@ -75,13 +76,13 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ header, currentUser, curren
     >
       <SettingHeader header={header} />
       <Box textAlign="center" marginTop={5}>
-        {imageKey == '' ? (
+        {profilePhotoKey == '' ? (
           <Avatar
             src={`https://robohash.org/${currentUser!.email}.png`}
             sx={{ width: 125, height: 125, margin: 'auto' }}
           />
         ) : (
-          <Avatar src={`/image/${imageKey}`} sx={{ width: 125, height: 125, margin: 'auto' }} />
+          <Avatar src={`/image/${profilePhotoKey}`} sx={{ width: 125, height: 125, margin: 'auto' }} />
         )}
         <Typography sx={{ color: '#808080', textAlign: 'center', marginTop: '20px' }} variant="body1">
           Be sure to use a photo that
@@ -117,9 +118,9 @@ const ProfilePhoto: React.FC<ProfilePhotoProps> = ({ header, currentUser, curren
               marginTop: '40px',
             }}
             onClick={() => {
-              if (imageKey !== '') {
-                deletePhoto(imageKey);
-                setImagesKey('');
+              if (profilePhotoKey !== '') {
+                deletePhoto(profilePhotoKey!);
+                updateProfilePhotoKey('');
                 editProfilePhotoKey({ photoKey: '' });
               }
             }}

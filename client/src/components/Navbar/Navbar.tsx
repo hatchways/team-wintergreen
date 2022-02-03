@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { useAuth } from '../../context/useAuthContext';
+import { useHelper } from '../../context/useHelperContext';
 import {
   Button,
   Divider,
@@ -17,7 +18,7 @@ import { AccountType } from '../../types/AccountType';
 import lovingSitterLogo from '../../images/logo.svg';
 import { useStyles } from './useStyles';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Settings, Logout, Person } from '@mui/icons-material';
+import { Settings, Logout, Person, SettingsInputAntennaTwoTone } from '@mui/icons-material';
 
 const NavbarButton = styled(Button)({
   padding: '15px 0',
@@ -96,8 +97,8 @@ const Navbar: React.FC = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { loggedInUser, profile, logout } = useAuth();
+  const { profilePhotoKey, updateProfilePhotoKey } = useHelper();
   const open = Boolean(anchorEl);
-  const [imageKey, setImageKey] = useState('init');
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -113,13 +114,10 @@ const Navbar: React.FC = () => {
   };
 
   const renderProfilePhoto = () => {
-    if (imageKey == 'init' && profile) {
-      setImageKey(profile.photoKey);
-    }
-    return imageKey == '' ? (
+    return profilePhotoKey == '' ? (
       <img style={{ width: 50 }} src={`https://robohash.org/${loggedInUser!.email}`} />
     ) : (
-      <img style={{ width: 50 }} src={`image/${imageKey}`} />
+      <img style={{ width: 50 }} src={`image/${profilePhotoKey}`} />
     );
   };
 
@@ -158,6 +156,7 @@ const Navbar: React.FC = () => {
                   onClick={handleMenuOpen}
                   color="inherit"
                 >
+                  {profile && updateProfilePhotoKey(profile.photoKey)}
                   {renderProfilePhoto()}
                 </IconButton>
                 <Menu
