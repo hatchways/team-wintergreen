@@ -12,7 +12,6 @@ const ProfileDetail = (): JSX.Element => {
     return profile.accountType === 'pet_owner' ? 'Kind pet owner' : 'Loving pet sitter';
   };
 
-  console.log(profile);
   return profile ? (
     <Paper elevation={8} className={classes.paper}>
       <Grid container direction="column">
