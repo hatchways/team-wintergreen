@@ -97,7 +97,7 @@ const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { loggedInUser, profile, logout } = useAuth();
   const open = Boolean(anchorEl);
-  const [imageKey, setImageKey] = useState('');
+  const [imageKey, setImageKey] = useState('init');
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -112,10 +112,15 @@ const Navbar: React.FC = () => {
     logout();
   };
 
-  const imageKeyUpdate = () => {
-    if (typeof profile !== 'undefined') {
+  const renderProfilePhoto = () => {
+    if (imageKey == 'init' && profile) {
       setImageKey(profile.photoKey);
     }
+    return imageKey == '' ? (
+      <img style={{ width: 50 }} src={`https://robohash.org/${loggedInUser!.email}`} />
+    ) : (
+      <img style={{ width: 50 }} src={`image/${imageKey}`} />
+    );
   };
 
   const renderMenuItems = () => {
@@ -153,11 +158,7 @@ const Navbar: React.FC = () => {
                   onClick={handleMenuOpen}
                   color="inherit"
                 >
-                  {imageKey == '' ? (
-                    <img style={{ width: 50 }} src={`https://robohash.org/${loggedInUser.email}`} />
-                  ) : (
-                    <img style={{ width: 50 }} src={`image/${imageKey}`} />
-                  )}
+                  {renderProfilePhoto()}
                 </IconButton>
                 <Menu
                   id="menu-appbar"
