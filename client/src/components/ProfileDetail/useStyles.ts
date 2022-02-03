@@ -11,7 +11,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
   avatar: {
     position: 'relative',
     top: '-45px',
-    // padding: '5px',
   },
   userBackground: {
     width: '100%',
