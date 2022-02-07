@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.route("/").get(protect, getRequests);
 router.route("/").post(protect, requestValidation, makeRequest);
-router.route("/").put(protect, requestValidation, updateRequest);
+router.route("/").patch(protect, requestValidation, updateRequest);
 
 module.exports = router;

@@ -40,7 +40,7 @@ exports.makeRequest = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @route PUT /request
+// @route PATCH /request
 // @desc Update request with approved or decline
 // @access Private
 exports.updateRequest = asyncHandler(async (req, res, next) => {
