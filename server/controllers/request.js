@@ -30,7 +30,7 @@ exports.getRequests = asyncHandler(async (req, res, next) => {
 // @desc Create a new request
 // @access Private
 exports.makeRequest = asyncHandler(async (req, res, next) => {
-  const request = new Request(req.body.request);
+  const request = new Request(req.request);
 
   if (!request.userId) {
     res.status(400);
@@ -62,7 +62,7 @@ exports.updateRequest = asyncHandler(async (req, res, next) => {
     throw new Error("Profile doesn't exist");
   }
 
-  request.set(req.body.request);
+  request.set(req.request);
   const updateRequest = await request.save();
 
   res.status(200).json({
