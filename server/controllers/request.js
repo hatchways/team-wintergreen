@@ -44,7 +44,7 @@ exports.makeRequest = asyncHandler(async (req, res, next) => {
 // @desc Update request with approved or decline
 // @access Private
 exports.updateRequest = asyncHandler(async (req, res, next) => {
-  const request = await Request.findById(req.params.id);
+  const request = await Request.findById(req.request.id);
 
   if (!request) {
     res.status(400);
