@@ -48,7 +48,11 @@ exports.makeRequest = asyncHandler(async (req, res, next) => {
   }
 
   await Request.create(request);
-  res.status(200).json("create profile success");
+  res.status(200).json({
+    success: {
+      requests: requests,
+    },
+  });
 });
 
 // @route PUT /request
