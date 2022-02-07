@@ -8,7 +8,6 @@ import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Home from './pages/Home/Home';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Home from './pages/Home/Home';
 import { AuthProvider } from './context/useAuthContext';
 import { SocketProvider } from './context/useSocketContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
