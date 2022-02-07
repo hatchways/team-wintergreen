@@ -32,21 +32,6 @@ exports.getRequests = asyncHandler(async (req, res, next) => {
 exports.makeRequest = asyncHandler(async (req, res, next) => {
   const request = new Request(req.request);
 
-  if (!request.userId) {
-    res.status(400);
-    throw new Error("user doesn't exist");
-  }
-
-  if (!request.sitterId) {
-    res.status(400);
-    throw new Error("sitter doesn't exist");
-  }
-
-  if (!request.startDate || !request.endDate) {
-    res.status(400);
-    throw new Error("date input error");
-  }
-
   await Request.create(request);
   res.status(200).json({
     success: {
