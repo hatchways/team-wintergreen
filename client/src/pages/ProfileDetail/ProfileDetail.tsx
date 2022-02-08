@@ -1,5 +1,4 @@
 import { Avatar, Card, CircularProgress, Grid, Typography } from '@mui/material';
-import { useAuth } from '../../context/useAuthContext';
 import React from 'react';
 import { useStyles } from './useStyles';
 import { LocationOn } from '@mui/icons-material';
@@ -8,7 +7,6 @@ import { FormikHelpers } from 'formik';
 
 const ProfileDetail = (): JSX.Element => {
   const classes = useStyles();
-  const { profile } = useAuth(); // change it to the real way to get profile
 
   const title = () => {
     return 'Loving pet sitter';
