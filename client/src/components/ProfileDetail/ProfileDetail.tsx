@@ -1,4 +1,4 @@
-import { Avatar, Card, CircularProgress, Grid, Paper, Typography } from '@mui/material';
+import { Avatar, Card, CircularProgress, Grid, Typography } from '@mui/material';
 import { useAuth } from '../../context/useAuthContext';
 import React from 'react';
 import { useStyles } from './useStyles';
@@ -6,14 +6,14 @@ import { LocationOn } from '@mui/icons-material';
 
 const ProfileDetail = (): JSX.Element => {
   const classes = useStyles();
-  const { profile } = useAuth();
+  const { profile } = useAuth(); // change it to the real way to get profile
 
   const title = () => {
-    return profile.accountType === 'pet_owner' ? 'Kind pet owner' : 'Loving pet sitter';
+    return 'Loving pet sitter';
   };
 
   return profile ? (
-    <Paper elevation={8} className={classes.paper}>
+    <Card elevation={8} className={classes.paper}>
       <Grid container direction="column">
         <Grid item>
           <img
@@ -48,7 +48,7 @@ const ProfileDetail = (): JSX.Element => {
           </Card>
         </Grid>
       </Grid>
-    </Paper>
+    </Card>
   ) : (
     <CircularProgress />
   );
