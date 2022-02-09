@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles((theme: Theme) => ({
   card: {
-    margin: '10px 0',
+    margin: theme.spacing(1),
   },
   settingsIcon: {
     margin: '10px',
