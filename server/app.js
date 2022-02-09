@@ -9,14 +9,14 @@ const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const multer = require("multer");
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: "uploads/" });
 const { uploadFile } = require("./utils/s3");
 
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const profileRouter = require("./routes/profile");
-const requestRouter = require("./routes/request");
-const imageRouter = require('./routes/image');
+const bookingRouter = require("./routes/booking");
+const imageRouter = require("./routes/image");
 
 const { json, urlencoded } = express;
 
@@ -51,7 +51,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/profile", profileRouter);
 app.use("/image", imageRouter);
-app.use("/requests", requestRouter);
+app.use("/bookings", bookingRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));

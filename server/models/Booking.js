@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const RequestSchema = new mongoose.Schema({
+const BookingSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -33,4 +33,4 @@ const RequestSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-module.exports = Request = mongoose.model("Request", RequestSchema);
+module.exports = Booking = mongoose.model("Booking", BookingSchema);

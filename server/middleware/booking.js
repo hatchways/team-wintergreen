@@ -1,17 +1,17 @@
-const requestValidation = (req, res, next) => {
-  const request = req.request;
+const bookingValidation = (req, res, next) => {
+  const booking = req.booking;
 
-  if (!request.userId) {
+  if (!booking.userId) {
     res.status(400);
     throw new Error("user doesn't exist");
   }
 
-  if (!request.sitterId) {
+  if (!booking.sitterId) {
     res.status(400);
     throw new Error("sitter doesn't exist");
   }
 
-  if (!request.startDate || !request.endDate) {
+  if (!booking.startDate || !booking.endDate) {
     res.status(400);
     throw new Error("date input error");
   }
@@ -19,4 +19,4 @@ const requestValidation = (req, res, next) => {
   next();
 };
 
-module.exports = requestValidation;
+module.exports = bookingValidation;
