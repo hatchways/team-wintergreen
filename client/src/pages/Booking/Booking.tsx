@@ -40,7 +40,7 @@ export default function Booking(): JSX.Element {
                     Your next booking:
                   </Typography>
                   <Typography className={classes.label} variant="h6">
-                    {getBookingTime(bookingInfo.startDate, bookingInfo.endDate)}
+                    {getBookingTime(nextBookingInfo.startDate, nextBookingInfo.endDate)}
                   </Typography>
                   <Box display="flex" flexDirection="row" alignItems="center">
                     <AvatarDisplay loggedIn={!!loggedInUser} user={nextBookingInfo.petOwner} />
