@@ -4,12 +4,78 @@ import { useStyles } from './useStyles';
 import { LocationOn } from '@mui/icons-material';
 import RequestForm from '../../components/RequestForm/RequestForm';
 import { FormikHelpers } from 'formik';
+import { makeBooking } from '../../helpers/APICalls/bookingInfo';
+import { BookingInfo } from '../../interface/BookingInfo';
+import { useAuth } from '../../context/useAuthContext';
 
 const ProfileDetail = (): JSX.Element => {
   const classes = useStyles();
+  const { loggedInUser } = useAuth();
 
-  const title = () => {
-    return 'Loving pet sitter';
+  const profile = {
+    id: '6204aa0e6d1e83d0824f9b17',
+    name: 'Jun Zheng',
+    description: "Jun's descroption",
+    gender: 'Male',
+    address: 'New York NY',
+    telephone: '1234567890',
+    birthday: new Date(),
+    photo: '',
+    accountType: 'pet_sitter',
+    price: 14,
+    rank: 4,
+  };
+
+  const handleSubmit = (
+    {
+      dropInDate,
+      dropInTime,
+      dropOffDate,
+      dropOffTime,
+    }: { dropInDate: Date; dropInTime: string; dropOffDate: Date; dropOffTime: string },
+    { setSubmitting }: FormikHelpers<{ dropInDate: Date; dropInTime: string; dropOffDate: Date; dropOffTime: string }>,
+  ) => {
+    if (dropInTime.includes('pm')) {
+      dropInDate.setHours(parseInt(dropInTime) + 12, 0, 0, 0);
+    } else {
+      dropInDate.setHours(parseInt(dropInTime), 0, 0, 0);
+    }
+    if (dropOffTime.includes('pm')) {
+      dropOffDate.setHours(parseInt(dropOffTime) + 12, 0, 0, 0);
+    } else {
+      dropOffDate.setHours(parseInt(dropOffTime), 0, 0, 0);
+    }
+
+    if (loggedInUser) {
+      const bookingInfo: BookingInfo = {
+        _id: undefined,
+        petOwner: loggedInUser,
+        sitterId: profile.id,
+        startDate: dropInDate,
+        endDate: dropOffDate,
+        status: 'pending',
+        paid: true,
+      };
+
+      makeBooking(bookingInfo).then((data) => {
+        if (data.error) {
+          setSubmitting(false);
+          console.log(data.error.message);
+        } else if (data.success) {
+          console.log(data.success);
+          setSubmitting(false);
+        } else {
+          // should not get here from backend but this catch is for an unknown issue
+          console.error({ data });
+
+          setSubmitting(false);
+          console.log('An unexpected error occurred. Please try again');
+        }
+      });
+    } else {
+      console.log('please login!');
+      // add a snake bar for above message
+    }
   };
 
   return profile ? (

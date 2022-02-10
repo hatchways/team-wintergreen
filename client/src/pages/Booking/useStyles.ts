@@ -53,7 +53,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
     '& button': {
       border: 'none',
       fontFamily: theme.typography.fontFamily,
-      background: theme.palette.background.paper,
     },
 
     '& .react-calendar__navigation': {
@@ -62,6 +61,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
       '& button': {
         fontSize: '30px',
         color: 'lightgray',
+        background: theme.palette.background.paper,
       },
 
       '& [class*=prev2-button]': {
@@ -95,12 +95,16 @@ export const useStyles = makeStyles((theme: Theme) => ({
         height: '35px',
         margin: '0.5em calc((100% - 245px) / 14)',
       },
-
-      '& [class*=tile--hasActive]': {
-        background: theme.palette.primary.main,
-        color: 'white',
-        borderRadius: '50%',
-      },
     },
+  },
+
+  activeDate: {
+    background: theme.palette.primary.main,
+    color: 'white',
+    borderRadius: '50%',
+  },
+
+  inactiveDate: {
+    background: theme.palette.background.paper,
   },
 }));

@@ -1,5 +1,6 @@
 const Booking = require("../models/Booking");
 const Profile = require("../models/Profile");
+const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
 // @route GET /bookings
@@ -7,22 +8,26 @@ const asyncHandler = require("express-async-handler");
 // @access Private
 exports.getBookings = asyncHandler(async (req, res, next) => {
   const profile = await Profile.findOne({ userId: req.user.id });
+  let bookings;
   if (profile.accountType === "pet_owner") {
-    const bookings = await Booking.find({ userId: req.user.id });
-
-    res.status(200).json({
-      success: {
-        bookings: bookings,
-      },
-    });
+    bookings = await Booking.find({ userId: req.user.id });
   } else {
-    const bookings = await Booking.find({ sitterId: req.user.id });
-    res.status(200).json({
-      success: {
-        bookings: bookings,
-      },
-    });
+    bookings = await Booking.find({ sitterId: req.user.id });
   }
+
+  const bookingInfos = [];
+  for (let booking of bookings) {
+    booking = booking.toObject();
+    booking.petOwner = await User.findById(booking.userId);
+    booking.sitter = await User.findById(booking.sitterId);
+    bookingInfos.push(booking);
+  }
+
+  res.status(200).json({
+    success: {
+      bookingInfos: bookingInfos,
+    },
+  });
 });
 
 // @route POST /bookings
@@ -35,7 +40,7 @@ exports.makeBooking = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: {
-      bookings: bookings,
+      bookingInfo: booking,
     },
   });
 });
@@ -56,7 +61,7 @@ exports.updateBooking = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: {
-      booking: updateBooking,
+      bookingInfo: updateBooking,
     },
   });
 });

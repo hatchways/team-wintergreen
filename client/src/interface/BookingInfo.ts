@@ -1,9 +1,10 @@
 import { User } from './User';
 
 export interface BookingInfo {
-  id: number | undefined;
+  _id: string | undefined;
   petOwner: User;
-  sitter: User;
+  sitter?: User;
+  sitterId?: string;
   startDate: Date;
   endDate: Date;
   status: string;

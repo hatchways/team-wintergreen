@@ -2,7 +2,6 @@ import { Autocomplete, Box, Card, Grid, TextField, Typography } from '@mui/mater
 import { Profile } from '../../interface/Profile';
 import { Star } from '@mui/icons-material';
 import { useStyles } from './useStyles';
-import * as Yup from 'yup';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Form, Formik, FormikHelpers } from 'formik';
@@ -20,18 +19,18 @@ interface Props {
       dropOffTime,
     }: {
       dropInDate: Date;
-      dropInTime: Date;
+      dropInTime: string;
       dropOffDate: Date;
-      dropOffTime: Date;
+      dropOffTime: string;
     },
     {
       setStatus,
       setSubmitting,
     }: FormikHelpers<{
       dropInDate: Date;
-      dropInTime: Date;
+      dropInTime: string;
       dropOffDate: Date;
-      dropOffTime: Date;
+      dropOffTime: string;
     }>,
   ) => void;
 }
@@ -47,7 +46,7 @@ const getTimes = (hour: number) => {
 const RequestForm = ({ className, profile, handleSubmit }: Props): JSX.Element => {
   const classes = useStyles();
   const today = new Date();
-  console.log(today.toDateString());
+
   return (
     <Card elevation={8} className={className}>
       <Grid container direction="column" alignItems="center" marginTop={3}>
@@ -60,17 +59,10 @@ const RequestForm = ({ className, profile, handleSubmit }: Props): JSX.Element =
             <Formik
               initialValues={{
                 dropInDate: new Date(),
-                dropInTime: new Date(),
+                dropInTime: getTimes(new Date().getHours())[0],
                 dropOffDate: new Date(),
-                dropOffTime: new Date(),
+                dropOffTime: getTimes(new Date().getHours())[1],
               }}
-              validationSchema={Yup.object().shape({
-                dropInDate: Yup.date().min(new Date()),
-                dropOffDate: Yup.date().when(
-                  'dropInDate',
-                  (dropInDate, schema) => dropInDate && schema.min(dropInDate),
-                ),
-              })}
               onSubmit={handleSubmit}
             >
               {(props) => (
@@ -84,8 +76,11 @@ const RequestForm = ({ className, profile, handleSubmit }: Props): JSX.Element =
                         renderInput={(params) => <TextField sx={{ width: '60%' }} {...params} />}
                       />
                       <Autocomplete
-                        onChange={(value) => props.setFieldValue('dropInTime', value)}
-                        value={getTimes(new Date().getHours())[0]}
+                        onChange={(event, value) => {
+                          props.setFieldValue('dropInTime', value);
+                        }}
+                        inputValue={props.values.dropInTime}
+                        disableClearable
                         options={getTimes(
                           props.values.dropInDate.toDateString() === today.toDateString()
                             ? props.values.dropInDate.getHours()
@@ -103,14 +98,14 @@ const RequestForm = ({ className, profile, handleSubmit }: Props): JSX.Element =
                         onChange={(value) => props.setFieldValue('dropOffDate', value)}
                         value={props.values.dropOffDate}
                         renderInput={(params) => <TextField sx={{ width: '60%' }} {...params} />}
-                        // sx={{ width: '50%' }}
                       />
                       <Autocomplete
-                        onChange={(value) => props.setFieldValue('dropOffTime', value)}
-                        value={getTimes(new Date().getHours())[0]}
+                        onChange={(event, value) => props.setFieldValue('dropOffTime', value)}
+                        inputValue={props.values.dropOffTime}
+                        disableClearable
                         options={getTimes(
                           props.values.dropOffDate.toDateString() === today.toDateString()
-                            ? props.values.dropOffDate.getHours()
+                            ? props.values.dropOffDate.getHours() + 1
                             : 0,
                         )}
                         renderInput={(params) => <TextField {...params} />}

@@ -14,7 +14,7 @@ const BookingSlot = (props: Props): JSX.Element => {
   const classes = useStyles();
 
   return (
-    <Card elevation={2} variant="outlined" className={classes.card}>
+    <Card variant="outlined" className={classes.card}>
       <Grid container>
         <Grid item md={8}>
           <CardContent>
@@ -32,7 +32,7 @@ const BookingSlot = (props: Props): JSX.Element => {
         <Grid item md={3} alignSelf="center">
           <CardContent>
             <Typography variant="subtitle2" className={classes.status}>
-              {props.bookingInfo.accepted ? 'accepted' : props.bookingInfo.declined ? 'declined' : 'pending'}
+              {props.bookingInfo.status}
             </Typography>
           </CardContent>
         </Grid>
@@ -47,30 +47,11 @@ const BookingSlot = (props: Props): JSX.Element => {
 };
 
 export function getBookingTime(start: Date, end: Date) {
-  const monthStr = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  const getTimeString = (time: number) => {
-    return time < 12 ? `${time}AM` : `${time - 12}PM`;
-  };
-
-  const day = start.getDay();
-  const month = monthStr[start.getMonth()];
+  const day = start.toLocaleString('en-US', { day: 'numeric' });
+  const month = start.toLocaleString('en-US', { month: 'long' });
   const year = start.getFullYear();
-  const startAt = getTimeString(start.getHours());
-  const endAt = getTimeString(end.getHours());
+  const startAt = start.toLocaleString('en-US', { hour: 'numeric', hour12: true });
+  const endAt = end.toLocaleString('en-US', { hour: 'numeric', hour12: true });
 
   return `${day} ${month} ${year}, ${startAt} - ${endAt}`;
 }
