@@ -17,7 +17,7 @@ const userRouter = require("./routes/user");
 const profileRouter = require("./routes/profile");
 const bookingRouter = require("./routes/booking");
 const imageRouter = require("./routes/image");
-
+const stripeRouter =require('./routes/stripe');
 const { json, urlencoded } = express;
 
 connectDB();
@@ -50,6 +50,7 @@ app.use((req, res, next) => {
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/profile", profileRouter);
+app.use('/stripe',stripeRouter);
 app.use("/image", imageRouter);
 app.use("/bookings", bookingRouter);
 
