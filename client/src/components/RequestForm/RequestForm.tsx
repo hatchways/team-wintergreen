@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Card, Grid, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Card, Grid, InputLabel, TextField, Typography } from '@mui/material';
 import { Profile } from '../../interface/Profile';
 import { Star } from '@mui/icons-material';
 import { useStyles } from './useStyles';
@@ -68,7 +68,9 @@ const RequestForm = ({ className, profile, handleSubmit }: Props): JSX.Element =
               {(props) => (
                 <Form className={classes.form}>
                   <Box display="flex" flexDirection="column">
-                    <label className={classes.label}>Drop in</label>
+                    <InputLabel className={classes.label} sx={{ fontWeight: 700, color: '#000' }}>
+                      Drop in
+                    </InputLabel>
                     <Box display="flex">
                       <DatePicker
                         onChange={(value) => props.setFieldValue('dropInDate', value)}
@@ -92,7 +94,9 @@ const RequestForm = ({ className, profile, handleSubmit }: Props): JSX.Element =
                     </Box>
                   </Box>
                   <Box display="flex" flexDirection="column" marginTop={3}>
-                    <label className={classes.label}>Drop Off</label>
+                    <InputLabel className={classes.label} sx={{ fontWeight: 700, color: '#000' }}>
+                      Drop Off
+                    </InputLabel>
                     <Box display="flex">
                       <DatePicker
                         onChange={(value) => props.setFieldValue('dropOffDate', value)}
