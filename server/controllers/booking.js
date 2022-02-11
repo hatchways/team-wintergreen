@@ -49,7 +49,7 @@ exports.makeBooking = asyncHandler(async (req, res, next) => {
 // @desc Update booking with approved or decline
 // @access Private
 exports.updateBooking = asyncHandler(async (req, res, next) => {
-  const booking = await Booking.findById(req.booking.id);
+  const booking = await Booking.findById(req.booking._id);
 
   if (!booking) {
     res.status(400);

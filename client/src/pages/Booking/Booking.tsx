@@ -21,7 +21,6 @@ export default function Booking(): JSX.Element {
   useEffect(() => {
     !noBookingInfo &&
       !currentBookingInfos.length &&
-      !nextBookingInfo &&
       !pastBookingInfos.length &&
       getBookings().then((data) => {
         if (data.error) {
@@ -52,7 +51,6 @@ export default function Booking(): JSX.Element {
                 }
               });
             setBookingDates(dates);
-            setNextBookingInfo(current.shift());
             setCurrentBookingInfos(current);
             setPastBookingInfos(past);
           } else {
@@ -63,7 +61,16 @@ export default function Booking(): JSX.Element {
           console.error({ data });
         }
       });
-  }, [noBookingInfo, currentBookingInfos, pastBookingInfos, nextBookingInfo, loggedInUser]);
+  }, [noBookingInfo, currentBookingInfos, pastBookingInfos, loggedInUser]);
+
+  useEffect(() => {
+    for (const booking of currentBookingInfos) {
+      if (booking.status === 'accepted') {
+        setNextBookingInfo(booking);
+        return;
+      }
+    }
+  }, [currentBookingInfos]);
 
   return currentBookingInfos.length || pastBookingInfos.length || noBookingInfo || nextBookingInfo ? (
     <Grid container direction="row" justifyContent="space-evenly" className={classes.root}>
@@ -110,7 +117,7 @@ export default function Booking(): JSX.Element {
                     </Typography>
                     {currentBookingInfos.length ? (
                       currentBookingInfos.map((bookingInfo) => (
-                        <BookingSlot bookingInfo={bookingInfo} key={bookingInfo._id} />
+                        <BookingSlot bookingInfo={bookingInfo} key={bookingInfo._id} updatable={true} />
                       ))
                     ) : (
                       <Typography variant="h6" sx={{ margin: '10px', fontWeight: 'bold' }}>
@@ -126,7 +133,7 @@ export default function Booking(): JSX.Element {
                     </Typography>
                     {pastBookingInfos.length ? (
                       pastBookingInfos.map((bookingInfo) => (
-                        <BookingSlot bookingInfo={bookingInfo} key={bookingInfo._id} />
+                        <BookingSlot bookingInfo={bookingInfo} key={bookingInfo._id} updatable={false} />
                       ))
                     ) : (
                       <Typography variant="h6" sx={{ margin: '10px', fontWeight: 'bold' }}>

@@ -1,17 +1,45 @@
-import { Box, Button, Card, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Grid, Menu, MenuItem, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { BookingInfo } from '../../../interface/BookingInfo';
 import AvatarDisplay from '../../../components/AvatarDisplay/AvatarDisplay';
 import { useStyles } from './useStyles';
-import { Key } from 'react';
+import React, { Key, SyntheticEvent, useState } from 'react';
+import { updateBooking } from '../../../helpers/APICalls/bookingInfo';
 
 interface Props {
   bookingInfo: BookingInfo;
   key: Key | null | undefined;
+  updatable: boolean;
 }
 
 const BookingSlot = (props: Props): JSX.Element => {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const openSetting = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const updateBookingInfo = (event: SyntheticEvent) => {
+    console.log(event.currentTarget.textContent);
+    if (event.currentTarget.textContent === 'Accept') {
+      props.bookingInfo.status = 'accepted';
+    } else if (event.currentTarget.textContent === 'Decline') {
+      props.bookingInfo.status = 'declined';
+    }
+
+    updateBooking(props.bookingInfo).then((data) => {
+      if (data.error) {
+        console.log(data.error.message);
+      } else if (data.success) {
+        console.log(data.success);
+      }
+    });
+    setAnchorEl(null);
+  };
 
   return (
     <Card variant="outlined" className={classes.card}>
@@ -37,9 +65,20 @@ const BookingSlot = (props: Props): JSX.Element => {
           </CardContent>
         </Grid>
         <Grid item md={1}>
-          <Button className={classes.settingButton} sx={{ minWidth: '100%' }}>
+          <Button
+            className={classes.settingButton}
+            sx={{ minWidth: '100%' }}
+            onClick={handleClick}
+            disabled={!props.updatable}
+          >
             <SettingsIcon className={classes.settingsIcon} sx={{ fontSize: '15px' }} />
           </Button>
+          <Menu open={openSetting} anchorEl={anchorEl} onClose={handleClose}>
+            <MenuItem onClick={updateBookingInfo}>Accept</MenuItem>
+            <MenuItem value={2} onClick={updateBookingInfo}>
+              Decline
+            </MenuItem>
+          </Menu>
         </Grid>
       </Grid>
     </Card>
