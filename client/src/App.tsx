@@ -35,11 +35,11 @@ function App(): JSX.Element {
                   <Route exact path="/" component={Home} />
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/signup" component={Signup} />
-                  <Route exact path="/dashboard" component={Dashboard} />
-                  <Route path="/profile/settings" component={Settings} />
+                  <AuthRoute exact path="/dashboard" component={Dashboard} />
+                  <AuthRoute path="/profile/settings" component={Settings} />
                   <AuthRoute path="/booking" component={Booking} />
                   <AuthRoute path="/profile" component={ProfileDetail} />
-                  <Route path="/profile-Listings" component={ProfileLists} />
+                  <AuthRoute path="/profile-Listings" component={ProfileLists} />
                   <Route path="*">
                     <NotFound />
                   </Route>
