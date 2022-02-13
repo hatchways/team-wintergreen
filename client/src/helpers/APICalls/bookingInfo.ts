@@ -9,7 +9,6 @@ export async function getBookings(): Promise<BookingApiData> {
   };
   return await fetch(`/bookings`, fetchOptions)
     .then((res) => {
-      console.log(res);
       return res.json();
     })
     .catch(() => ({
@@ -26,7 +25,6 @@ export async function makeBooking(bookingInfo: BookingInfo): Promise<BookingApiD
   };
   return await fetch(`/bookings`, fetchOptions)
     .then((res) => {
-      console.log(res);
       return res.json();
     })
     .catch(() => ({
@@ -43,7 +41,6 @@ export async function updateBooking(bookingInfo: BookingInfo): Promise<BookingAp
   };
   return await fetch(`/bookings`, fetchOptions)
     .then((res) => {
-      console.log(res);
       return res.json();
     })
     .catch(() => ({

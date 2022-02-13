@@ -57,24 +57,10 @@ const ProfileDetail = (): JSX.Element => {
         paid: true,
       };
 
-      makeBooking(bookingInfo).then((data) => {
-        if (data.error) {
-          setSubmitting(false);
-          console.log(data.error.message);
-        } else if (data.success) {
-          console.log(data.success);
-          setSubmitting(false);
-        } else {
-          // should not get here from backend but this catch is for an unknown issue
-          console.error({ data });
-
-          setSubmitting(false);
-          console.log('An unexpected error occurred. Please try again');
-        }
-      });
+      makeBooking(bookingInfo);
+      setSubmitting(false);
     } else {
-      console.log('please login!');
-      // add a snake bar for above message
+      // add a snake bar for request login
     }
   };
 

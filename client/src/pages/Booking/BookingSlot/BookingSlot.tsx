@@ -24,20 +24,13 @@ const BookingSlot = (props: Props): JSX.Element => {
   };
 
   const updateBookingInfo = (event: SyntheticEvent) => {
-    console.log(event.currentTarget.textContent);
     if (event.currentTarget.textContent === 'Accept') {
       props.bookingInfo.status = 'accepted';
     } else if (event.currentTarget.textContent === 'Decline') {
       props.bookingInfo.status = 'declined';
     }
 
-    updateBooking(props.bookingInfo).then((data) => {
-      if (data.error) {
-        console.log(data.error.message);
-      } else if (data.success) {
-        console.log(data.success);
-      }
-    });
+    updateBooking(props.bookingInfo);
     setAnchorEl(null);
   };
 

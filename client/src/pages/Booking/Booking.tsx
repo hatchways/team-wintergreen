@@ -23,9 +23,7 @@ export default function Booking(): JSX.Element {
       !currentBookingInfos.length &&
       !pastBookingInfos.length &&
       getBookings().then((data) => {
-        if (data.error) {
-          console.log(data.error.message);
-        } else if (data.success) {
+        if (data.success) {
           const bookingInfos = data.success.bookingInfos;
           if (bookingInfos?.length) {
             const now = new Date();
