@@ -20,7 +20,6 @@ exports.getBookings = asyncHandler(async (req, res, next) => {
     ]);
   }
 
-  console.log(bookings);
   res.status(200).json({
     success: {
       bookingInfos: bookings,
@@ -33,7 +32,6 @@ exports.getBookings = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.makeBooking = asyncHandler(async (req, res, next) => {
   const booking = new Booking(req.booking);
-  console.log(booking);
   await Booking.create(booking);
 
   res.status(200).json({
@@ -47,19 +45,20 @@ exports.makeBooking = asyncHandler(async (req, res, next) => {
 // @desc Update booking with approved or decline
 // @access Private
 exports.updateBooking = asyncHandler(async (req, res, next) => {
-  const booking = await Booking.findById(req.booking._id);
-  console.log(booking);
+  const booking = await Booking.findByIdAndUpdate(
+    req.params.bookingId,
+    req.body.data,
+    { returnDocument: "after" }
+  );
+
   if (!booking) {
     res.status(400);
     throw new Error("Profile doesn't exist");
   }
 
-  booking.set(req.booking);
-  const updateBooking = await booking.save();
-
   res.status(200).json({
     success: {
-      bookingInfo: updateBooking,
+      bookingInfo: booking,
     },
   });
 });

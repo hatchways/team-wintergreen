@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.route("/").get(protect, getBookings);
 router.route("/").post(protect, bookingValidation, makeBooking);
-router.route("/").patch(protect, bookingValidation, updateBooking);
+router.route("/:bookingId").patch(protect, updateBooking);
 
 module.exports = router;
