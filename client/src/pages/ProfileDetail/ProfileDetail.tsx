@@ -13,9 +13,9 @@ const ProfileDetail = (): JSX.Element => {
   const { loggedInUser } = useAuth();
 
   const profile = {
-    id: '6204aa0e6d1e83d0824f9b17',
+    userId: '6204aa0e6d1e83d0824f9b17',
     name: 'Jun Zheng',
-    description: "Jun's descroption",
+    description: "Jun's description",
     gender: 'Male',
     address: 'New York NY',
     telephone: '1234567890',
@@ -50,7 +50,7 @@ const ProfileDetail = (): JSX.Element => {
       const bookingInfo: BookingInfo = {
         _id: undefined,
         petOwner: loggedInUser,
-        sitterId: profile.id,
+        sitter: profile.userId,
         startDate: dropInDate,
         endDate: dropOffDate,
         status: 'pending',

@@ -9,16 +9,14 @@ const bookingValidation = (req, res, next) => {
   }
 
   if (!booking.petOwner && !booking.userId) {
-    req.booking.userId = req.user.id;
-  } else if (!booking.userId) {
-    req.booking.userId = booking.petOwner.id;
+    throw new Error("user doesn't exist");
+  } else {
+    req.booking.petOwner = booking.petOwner.id;
   }
 
-  if (!booking.sitter && !booking.sitterId) {
+  if (!booking.sitter) {
     res.status(400);
     throw new Error("sitter doesn't exist");
-  } else if (!booking.sitterId) {
-    req.booking.sitterId = booking.sitter.id;
   }
 
   next();

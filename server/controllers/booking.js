@@ -1,6 +1,5 @@
 const Booking = require("../models/Booking");
 const Profile = require("../models/Profile");
-const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
 // @route GET /bookings
@@ -10,22 +9,21 @@ exports.getBookings = asyncHandler(async (req, res, next) => {
   const profile = await Profile.findOne({ userId: req.user.id });
   let bookings;
   if (profile.accountType === "pet_owner") {
-    bookings = await Booking.find({ userId: req.user.id });
+    bookings = await Booking.find({ petOwner: req.user.id }).populate([
+      "petOwner",
+      "sitter",
+    ]);
   } else {
-    bookings = await Booking.find({ sitterId: req.user.id });
+    bookings = await Booking.find({ sitter: req.user.id }).populate([
+      "petOwner",
+      "sitter",
+    ]);
   }
 
-  const bookingInfos = [];
-  for (let booking of bookings) {
-    booking = booking.toObject();
-    booking.petOwner = await User.findById(booking.userId);
-    booking.sitter = await User.findById(booking.sitterId);
-    bookingInfos.push(booking);
-  }
-
+  console.log(bookings);
   res.status(200).json({
     success: {
-      bookingInfos: bookingInfos,
+      bookingInfos: bookings,
     },
   });
 });
@@ -35,7 +33,7 @@ exports.getBookings = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.makeBooking = asyncHandler(async (req, res, next) => {
   const booking = new Booking(req.booking);
-
+  console.log(booking);
   await Booking.create(booking);
 
   res.status(200).json({
@@ -50,7 +48,7 @@ exports.makeBooking = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.updateBooking = asyncHandler(async (req, res, next) => {
   const booking = await Booking.findById(req.booking._id);
-
+  console.log(booking);
   if (!booking) {
     res.status(400);
     throw new Error("Profile doesn't exist");

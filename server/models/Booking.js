@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
-const BookingSchema = new mongoose.Schema(
+const bookingSchema = new mongoose.Schema(
   {
-    userId: {
+    petOwner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
-    sitterId: {
+    sitter: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
@@ -35,4 +35,4 @@ const BookingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = Booking = mongoose.model("Booking", BookingSchema);
+module.exports = Booking = mongoose.model("Booking", bookingSchema);
