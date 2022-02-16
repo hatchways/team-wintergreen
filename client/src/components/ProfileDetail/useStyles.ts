@@ -14,6 +14,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   userBackground: {
     width: '100%',
+    height: '300px',
     borderRadius: '8px',
   },
   name: {
