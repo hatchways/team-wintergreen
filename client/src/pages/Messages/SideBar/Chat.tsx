@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, Badge, Box, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-
+import moment from 'moment';
 const useStyles = makeStyles(() => ({
   root: {
     borderRadius: 8,
@@ -13,6 +13,12 @@ const useStyles = makeStyles(() => ({
     '&:hover': {
       cursor: 'grab',
     },
+  },
+  root1: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginLeft: 20,
+    flexGrow: 1,
   },
   profilePic: {
     height: 44,
@@ -43,25 +49,29 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Chat = () => {
+const Chat = (conversation: any) => {
   const classes = useStyles();
 
   return (
     <Box className={classes.root}>
       <Box className={classes.sidebar}>
-        <Badge
-          classes={{ badge: `${classes.badge} ${classes.online}` }}
-          variant="dot"
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          overlap="circular"
-        >
-          <Avatar className={classes.profilePic}></Avatar>
+        <Badge anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+          <Avatar src={conversation.message.photo} className={classes.profilePic}></Avatar>
         </Badge>
       </Box>
-      <Box className={classes.root}>
+      <Box className={classes.root1}>
         <Box>
-          <Typography className={classes.username}>Hello</Typography>
-          <Typography className={classes.previewText}>How are you</Typography>
+          <Typography sx={{ fontWeight: 'bold' }} className={classes.username}>
+            {conversation.message.name}
+          </Typography>
+          <Typography style={{ float: 'left' }} className={classes.previewText}>
+            {conversation.message.latestMessage}
+          </Typography>
+
+          <Typography style={{ marginLeft: '15vw' }}>
+            {' '}
+            {moment(conversation.message.createAt).format('YYYY-MM-DD')}
+          </Typography>
         </Box>
       </Box>
     </Box>

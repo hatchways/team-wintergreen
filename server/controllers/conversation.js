@@ -58,6 +58,7 @@ exports.createConversation = asyncHandler(async (req, res, next) => {
 // @desc send message
 // @access Public
 exports.sendMessage = asyncHandler(async (req, res, next) => {
+  console.log(req.body)
   const userId = await User.findById(req.user.id);
   if (!userId) {
     res.status(401);
@@ -96,20 +97,34 @@ exports.getAllConversations = asyncHandler(async (req, res, next) => {
   const senderId = req.user.id;
   let conversation = await Conversation.find({ $or: [{ userId1: senderId }, { userId2: senderId }] });
   let newConversation = [];
+  let conversationInfo=[];
+  console.log(conversation);
   for (let i = 0; i < conversation.length; i++) {
     let profile = "";
-    if (conversation[i].userid1 === senderId) {
-      profile = await Profile.find({ userId: conversation[i].userId1 });
+    newConversation.length=0;
+    newConversation.conversationId=conversation[i]._id;
+    console.log(conversation[i].userId1,senderId);
+    if (conversation[i].userId1 == senderId) {
+      profile = await Profile.findOne({ userId: conversation[i].userId2 });
+      newConversation.otherUser=conversation[i].userId2;
+      newConversation.name=profile.name;
+      newConversation.photo=profile.photo;
     }
     else {
-      profile = await Profile.find({ userId: conversation[i].userId2 });
+      profile = await Profile.findOne({ userId: conversation[i].userId1 });
+      newConversation.otherUser=conversation[i].userId1;
+      newConversation.name=profile.name;
+      newConversation.photo=profile.photo;
     }
     let messages = await Message.find({ conversationId: conversation[i]._id });
-    newConversation[i] = ([messages, profile]);
+    newConversation.latestMessage=messages[messages.length-1].text;
+    newConversation.createAt=messages[messages.length-1].createdAt;
+    conversationInfo[i]={...newConversation};
+
   }
   res.status(200).json({
     success: {
-      newConversation: newConversation
+      newConversation:conversationInfo
     },
   });
 });
@@ -118,6 +133,7 @@ exports.getAllConversations = asyncHandler(async (req, res, next) => {
 // @desc send message
 // @access Public
 exports.getAllMessages = asyncHandler(async (req, res, next) => {
+  console.log(req.params.conversationId)
   const conversationId = req.params.conversationId;
   let messages = await Message.find({ conversationId });
   res.status(200).json({

@@ -12,7 +12,7 @@ router.route("/create").post(protect,createConversation);
 
 router.route("/send").post(protect,sendMessage);
 
-router.route("/all").get(getAllConversations);
+router.route("/all").get(protect,getAllConversations);
 
 router.route("/messages/:conversationId").get(getAllMessages);
 
