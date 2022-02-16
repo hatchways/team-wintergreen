@@ -9,6 +9,7 @@ import { BookingInfo } from '../../interface/BookingInfo';
 import { useAuth } from '../../context/useAuthContext';
 import { loadProfile } from '../../helpers/APICalls/loadProfile';
 import { Profile } from '../../interface/Profile';
+import ProfileGallery from '../../components/ProfileGallery/ProfileGallery';
 
 const ProfileDetail = (): JSX.Element => {
   const classes = useStyles();
@@ -65,7 +66,7 @@ const ProfileDetail = (): JSX.Element => {
 
   return profile ? (
     <Grid container justifyContent="space-evenly">
-      <Grid item md={5}>
+      <Grid item md={6}>
         <Card elevation={8} className={classes.card}>
           <Grid container direction="column">
             <Grid item>
@@ -89,17 +90,18 @@ const ProfileDetail = (): JSX.Element => {
               </Typography>
             </Grid>
             <Grid item display="flex" justifyContent="center">
-              <Card elevation={2} className={classes.descriptionCard}>
+              <Card elevation={0} className={classes.descriptionCard}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                   About me
                 </Typography>
                 <Typography variant="body1">{profile.description}</Typography>
+                <ProfileGallery images={profile.gallery} />
               </Card>
             </Grid>
           </Grid>
         </Card>
       </Grid>
-      <Grid item md={4}>
+      <Grid item md={3}>
         <RequestForm className={classes.card} profile={profile} handleSubmit={handleSubmit} />
       </Grid>
     </Grid>
