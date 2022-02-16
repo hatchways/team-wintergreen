@@ -81,7 +81,7 @@ const RequestForm = ({ className, profile, handleSubmit }: Props): JSX.Element =
                         onChange={(event, value) => {
                           props.setFieldValue('dropInTime', value);
                         }}
-                        inputValue={props.values.dropInTime}
+                        defaultValue={props.values.dropInTime}
                         disableClearable
                         options={getTimes(
                           props.values.dropInDate.toDateString() === today.toDateString()
@@ -105,7 +105,7 @@ const RequestForm = ({ className, profile, handleSubmit }: Props): JSX.Element =
                       />
                       <Autocomplete
                         onChange={(event, value) => props.setFieldValue('dropOffTime', value)}
-                        inputValue={props.values.dropOffTime}
+                        defaultValue={props.values.dropOffTime}
                         disableClearable
                         options={getTimes(
                           props.values.dropOffDate.toDateString() === today.toDateString()
