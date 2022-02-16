@@ -16,8 +16,8 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const profileRouter = require("./routes/profile");
 const bookingRouter = require("./routes/booking");
-const imageRouter = require("./routes/image");
 const stripeRouter =require('./routes/stripe');
+const imageRouter = require('./routes/image');
 const { json, urlencoded } = express;
 
 connectDB();
