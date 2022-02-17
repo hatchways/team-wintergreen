@@ -6,7 +6,7 @@ const getConversation = async () => {
     method: 'GET',
     credentials: 'include',
   };
-  return await fetch(`/conversation/all`, fetchOptions)
+  return await fetch(`/conversation`, fetchOptions)
     .then((res) => res.json())
     .catch(() => ({
       error: { message: 'Unable to connect to server. Please try again' },

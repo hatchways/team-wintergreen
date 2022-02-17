@@ -29,7 +29,6 @@ function App(): JSX.Element {
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route path="/profile/settings" component={Settings} />
                 <Route path="/messages" component={Messages} />
-
                 <Route path="*">
                   <NotFound />
                 </Route>
