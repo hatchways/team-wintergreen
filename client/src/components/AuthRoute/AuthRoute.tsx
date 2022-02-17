@@ -5,11 +5,8 @@ import React from 'react';
 
 export const AuthRoute = (props: RouteProps) => {
   const { loggedInUser } = useAuth();
-  return loggedInUser === undefined ? (
-    <CircularProgress />
-  ) : loggedInUser ? (
-    <Route {...props} />
-  ) : (
-    <Redirect to="/login" />
-  );
+  if (!loggedInUser) {
+    return <CircularProgress />;
+  }
+  return loggedInUser ? <Route {...props} /> : <Redirect to="/login" />;
 };
