@@ -34,7 +34,6 @@ const Messages = () => {
         console.error({ error: data.error.message });
       } else if (data.success) {
         setMessages(data.success.message);
-        // if (messages.length)
         setCheck(true);
       }
     });
