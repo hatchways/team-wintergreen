@@ -18,6 +18,7 @@ import Messages from './pages/Messages/Messages';
 import ProfileLists from './pages/ProfileList/profileList';
 import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { AuthRoute } from './components/AuthRoute/AuthRoute';
 
 function App(): JSX.Element {
   return (
