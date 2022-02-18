@@ -1,5 +1,6 @@
 import { FormControl, InputBase, InputLabel, MenuItem, Select } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import {
   Button,
   Divider,
@@ -37,6 +38,7 @@ const NotificationsMenuItem = (notifications: [Notification]) => {
   const classes = useStyles();
   let key = 0;
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    handleScroll;
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -50,7 +52,7 @@ const NotificationsMenuItem = (notifications: [Notification]) => {
             <DropdownMenuItem onClick={handleClose}>
               {notification.creatorPhotoKey == '' ? (
                 <Avatar
-                  src={`https://robohash.org/${'currentUser!.email'}.png`}
+                  src={`https://robohash.org/${notification.createdBy}.png`}
                   sx={{ width: 125, height: 125, margin: 'auto' }}
                 />
               ) : (
@@ -69,15 +71,33 @@ const NotificationsMenuItem = (notifications: [Notification]) => {
       }),
     ];
   };
+  const test = (scrollPosition: number) => {
+    console.log('scroll ' + scrollPosition);
+    console.log(scrollEl);
+  };
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollEl, setScrollEl] = useState<null | HTMLElement>(null);
+  const handleScrollOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setScrollEl(event.currentTarget);
+  };
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  };
+  useEffect(() => {
+    scrollEl?.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      scrollEl?.removeEventListener('scroll', handleScroll);
+    };
+  }, [scrollEl]);
   return (
-    <>
-      <div onClick={handleMenuOpen}>
-        <Badge badgeContent={notifications ? notifications.length : 0} color="primary">
-          Notifications
-        </Badge>
-      </div>
+    <div onClick={handleMenuOpen}>
+      {test(scrollPosition)}
+      <Badge badgeContent={notifications ? notifications.length : 0} color="primary">
+        Notifications
+      </Badge>
       <Menu
-        id="menu-appbar"
+        id="lock-menur"
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'bottom',
@@ -93,7 +113,7 @@ const NotificationsMenuItem = (notifications: [Notification]) => {
       >
         {notifications && renderNotifications()}
       </Menu>
-    </>
+    </div>
   );
 };
 
