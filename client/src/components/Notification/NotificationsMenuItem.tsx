@@ -38,7 +38,7 @@ const NotificationsMenuItem = (notifications: [Notification]) => {
   const classes = useStyles();
   let key = 0;
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    handleScroll;
+    setScrollEl(event.currentTarget);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -81,8 +81,9 @@ const NotificationsMenuItem = (notifications: [Notification]) => {
     setScrollEl(event.currentTarget);
   };
   const handleScroll = () => {
-    const position = window.pageYOffset;
-    setScrollPosition(position);
+    //const position = window.pageYOffset;
+    //setScrollPosition(position);
+    console.log('test');
   };
   useEffect(() => {
     scrollEl?.addEventListener('scroll', handleScroll, { passive: true });
