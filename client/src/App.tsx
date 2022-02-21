@@ -17,6 +17,7 @@ import NotFound from './pages/NotFound/NotFound';
 import ProfileLists from './pages/ProfileList/profileList';
 import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { AuthRoute } from './components/AuthRoute/AuthRoute';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 
@@ -34,20 +35,19 @@ function App(): JSX.Element {
             <AuthProvider>
               <SocketProvider>
                 <Elements stripe={stripePromise}>
-                  <CssBaseline />
-                  <Navbar />
-                  <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/signup" component={Signup} />
-                    <Route exact path="/dashboard" component={Dashboard} />
-                    <Route path="/profile/settings" component={Settings} />
-                    <Route path="/profile-Listings" component={ProfileLists} />
-                    <Route path="*">
-                      <NotFound />
-                    </Route>
-                  </Switch>
-                </Elements>
+                <CssBaseline />
+                <Navbar />
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/signup" component={Signup} />
+                  <AuthRoute exact path="/dashboard" component={Dashboard} />
+                  <AuthRoute path="/profile/settings" component={Settings} />
+                  <AuthRoute path="/profile-Listings" component={ProfileLists} />
+                  <Route path="*">
+                    <NotFound />
+                  </Route>
+                </Switch>
               </SocketProvider>
             </AuthProvider>
           </SnackBarProvider>
