@@ -42,7 +42,18 @@ const profileSchema = new mongoose.Schema({
     type: String,
     enum: ["pet_sitter", "pet_owner"],
     default: "pet_owner",
-  }
+  },
+  reviews: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Review',
+    }],
+    validate: [arrayLimit, '{PATH} exceeds the limit of 10']
+  },
 });
+
+const arrayLimit = (val) => {
+  return val.length <= 10;
+}
 
 module.exports = Profile = mongoose.model("Profile", profileSchema);
