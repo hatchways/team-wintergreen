@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { arrayLimit } = require("../utils/helpers");
 
 const profileSchema = new mongoose.Schema({
   userId: {
@@ -43,6 +44,7 @@ const profileSchema = new mongoose.Schema({
     enum: ["pet_sitter", "pet_owner"],
     default: "pet_owner",
   },
+  // most recent 10 reviews
   reviews: {
     type: [{
       type: mongoose.Schema.Types.ObjectId,
@@ -51,9 +53,5 @@ const profileSchema = new mongoose.Schema({
     validate: [arrayLimit, '{PATH} exceeds the limit of 10']
   },
 });
-
-const arrayLimit = (val) => {
-  return val.length <= 10;
-}
 
 module.exports = Profile = mongoose.model("Profile", profileSchema);

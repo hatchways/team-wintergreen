@@ -5,9 +5,12 @@ const {
   editProfile,
   loadProfile,
 } = require('../controllers/profile');
+const reviewRouter = require('../routes/review');
 
 router.route('/edit').put(protect, editProfile);
 
 router.route('/load').get(protect, loadProfile);
+
+router.use("/reviews", reviewRouter);
 
 module.exports = router;
