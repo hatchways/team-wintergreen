@@ -4,14 +4,8 @@ const asyncHandler = require("express-async-handler");
 
 exports.getReviews = asyncHandler(async (req, res) => {
     const { id } = req.user;
-    Review.find({ profileId: id })
-        .then((reviews) => {
-            res.status(200).json({
-                success: {
-                    reviews: reviews,
-                },
-            });
-        });
+    let reviews = await Review.find({ profileId: id });
+    res.status(200).json({ success: { reviews }});
 });
 exports.createReview = asyncHandler(async (req, res) => {
     const {
@@ -20,31 +14,21 @@ exports.createReview = asyncHandler(async (req, res) => {
         star,
         description
     } = req.body;
-    review = new Review({
+    let review = new Review({
         reviewerId,
         profileId,
         star,
         description
     });
-    review.save();
+    await review.save();
 
-    reviews = Profile.find({ userId: profileId }, { "reviews": 1 }).reviews;
+    let reviews = await Profile.find({ userId: profileId }, { "reviews": 1 }).reviews;
     if (reviews.length <= 10) {
         reviews.push(review);
     } else {
         reviews.pop();
         reviews.unshift(review);
     };
-    Profile.updateOne({ userId: profileId }, {
-        $set:
-        {
-            reviews: reviews
-        }
-    }).then(
-        res.status(200).json({
-            success: {
-                review: review
-            }
-        })
-    );
+    let profile = await Profile.updateOne({ userId: profileId }, { $set: { reviews } })
+    if (profile) res.status(200).json({ success: { review } });
 });

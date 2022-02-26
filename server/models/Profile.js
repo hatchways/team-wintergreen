@@ -44,7 +44,6 @@ const profileSchema = new mongoose.Schema({
     enum: ["pet_sitter", "pet_owner"],
     default: "pet_owner",
   },
-  // most recent 10 reviews
   reviews: {
     type: [{
       type: mongoose.Schema.Types.ObjectId,
