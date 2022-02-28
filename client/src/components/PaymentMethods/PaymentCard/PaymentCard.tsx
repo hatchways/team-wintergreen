@@ -1,4 +1,4 @@
-import { Card, CardMedia, Typography } from '@mui/material';
+import { Box, Card, CardMedia, Typography } from '@mui/material';
 import { PaymentMethod } from '@stripe/stripe-js';
 import visaLogo from '../../../images/paymentMethodIcons/Visa_Brandmark_Blue_RGB_2021.png';
 import mcLogo from '../../../images/paymentMethodIcons/mc_symbol_opt_73_3x.png';
@@ -19,12 +19,12 @@ const PaymentCard = ({ cardElement }: { cardElement: PaymentMethod }): JSX.Eleme
   return (
     <Card className={classes.paymentCard}>
       <CardMedia style={{ width: '30%' }} component="img" image={getCardLogo(cardElement?.card?.brand)} />
-      <div>
+      <Box>
         <Typography sx={{ fontWeight: 'bold' }}>**** **** **** {cardElement?.card?.last4}</Typography>
         <Typography variant="subtitle2" sx={{ color: 'gray' }}>
           Exp. Date {cardElement?.card?.exp_month}/{cardElement?.card?.exp_year}
         </Typography>
-      </div>
+      </Box>
       <Typography sx={{ fontWeight: 'bold' }}>{cardElement?.billing_details.name}</Typography>
     </Card>
   );
