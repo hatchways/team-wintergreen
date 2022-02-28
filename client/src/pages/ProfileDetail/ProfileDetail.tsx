@@ -20,7 +20,6 @@ const ProfileDetail = (): JSX.Element => {
     !profile &&
       loadProfile('6204aa0e6d1e83d0824f9b17').then((data) => {
         if (data.success) {
-          console.log(data.success);
           setProfile(data.success.profile);
         }
       });
