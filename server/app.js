@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-const colors = require("colors");
-const path = require("path");
-const http = require("http");
-const express = require("express");
-const socketio = require("socket.io");
-const { notFound, errorHandler } = require("./middleware/error");
-const connectDB = require("./db");
-const { join } = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-
-const authRouter = require("./routes/auth");
-const userRouter = require("./routes/user");
-const profileRouter = require('./routes/profile');
-const conversationRouter=require('./routes/conversation');
-const imageRouter = require('./routes/image');
-const stripeRouter =require('./routes/stripe');
-=======
 const colors = require( "colors" );
 const path = require( "path" );
 const http = require( "http" );
@@ -35,7 +16,6 @@ const stripeRouter = require( './routes/stripe' );
 const imageRouter = require( './routes/image' );
 const conversationRouter=require('./routes/conversation');
 
->>>>>>> 457822b20a76bfd478dd93906d7ad18568436188
 const { json, urlencoded } = express;
 
 connectDB();
@@ -68,14 +48,6 @@ app.use( ( req, res, next ) => {
 
 
 
-<<<<<<< HEAD
-app.use("/auth", authRouter);
-app.use("/users", userRouter);
-app.use("/profile", profileRouter);
-app.use("/conversations",conversationRouter);
-app.use('/stripe',stripeRouter);
-app.use("/image", imageRouter);
-=======
 app.use( "/auth", authRouter );
 app.use( "/users", userRouter );
 app.use( "/profile", profileRouter );
@@ -83,7 +55,6 @@ app.use( "/availability", availabilityRouter );
 app.use("/conversation",conversationRouter);
 app.use( '/stripe', stripeRouter );
 app.use( "/image", imageRouter );
->>>>>>> 457822b20a76bfd478dd93906d7ad18568436188
 
 if ( process.env.NODE_ENV === "production" )
 {
