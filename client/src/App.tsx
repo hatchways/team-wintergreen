@@ -14,9 +14,11 @@ import { SnackBarProvider } from './context/useSnackbarContext';
 import { Navbar } from './components/Navbar/Navbar';
 import Settings from './pages/Settings/Settings';
 import NotFound from './pages/NotFound/NotFound';
+import Messages from './pages/Messages/Messages';
 import ProfileLists from './pages/ProfileList/profileList';
 import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { AuthRoute } from './components/AuthRoute/AuthRoute';
 
 function App(): JSX.Element {
   return (
@@ -35,6 +37,7 @@ function App(): JSX.Element {
                   <Route exact path="/dashboard" component={Dashboard} />
                   <Route path="/profile/settings" component={Settings} />
                   <Route path="/profile-Listings" component={ProfileLists} />
+                  <Route path="/messages" component={Messages} />
                   <Route path="*">
                     <NotFound />
                   </Route>
