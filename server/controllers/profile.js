@@ -37,3 +37,22 @@ exports.loadProfile = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
+// @route GET /profile/sitter
+// @desc Get all profile data
+// @access Private
+exports.getAllSitters = asyncHandler(async (req, res) => {
+  const result = [];
+  const profiles = await Profile.find({ isSitter: true, price: { $ne: null } })
+  profiles.forEach((profile) => {
+    const address = profile.address;
+    if (address.toLowerCase().search(req.query.location.toLowerCase()) > -1) {
+      result.push(profile);
+    }
+  })
+  res.status(200).json({
+    success: {
+      profiles: result
+    },
+  })
+});
