@@ -31,6 +31,22 @@ exports.getBookings = asyncHandler(async (req, res, next) => {
 // @desc Create a new booking
 // @access Private
 exports.makeBooking = asyncHandler(async (req, res, next) => {
+  const {sitter, startDate, endDate} = req.booking
+  const booking = new Booking({
+    sitter,
+    startDate,
+    endDate,
+    petOwner: req.user.id
+  });
+  
+ const newBooking = await Booking.create(booking);
+
+  res.status(200).json({
+    success: {
+      bookingInfo: newBooking,
+    },
+  });
+});
   const booking = new Booking(req.booking);
   await Booking.create(booking);
 
