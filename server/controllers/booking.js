@@ -61,7 +61,12 @@ exports.makeBooking = asyncHandler(async (req, res, next) => {
 // @desc Update booking with approved or decline
 // @access Private
 exports.updateBooking = asyncHandler(async (req, res, next) => {
+  const { status } = req.body
   const booking = await Booking.findByIdAndUpdate(
+    req.params.bookingId,
+    status,
+    { returnDocument: "after" }
+  );
     req.params.bookingId,
     req.body.data,
     { returnDocument: "after" }
