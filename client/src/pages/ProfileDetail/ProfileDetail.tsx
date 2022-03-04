@@ -47,6 +47,11 @@ const ProfileDetail = (): JSX.Element => {
 
     if (loggedInUser && profile) {
       const bookingInfo: BookingInfo = {
+        sitter: profile.userId,
+        startDate: dropInDate,
+        endDate: dropOffDate,
+        status: 'pending',
+      };
         _id: undefined,
         petOwner: loggedInUser,
         sitter: profile.userId,
