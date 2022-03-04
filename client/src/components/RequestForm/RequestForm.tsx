@@ -1,38 +1,24 @@
-import { Autocomplete, Box, Card, Grid, InputLabel, TextField, Typography } from '@mui/material';
-import { Profile } from '../../interface/Profile';
 import { Star } from '@mui/icons-material';
-import { useStyles } from './useStyles';
+import { DatePicker, LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { Autocomplete, Box, Card, Grid, InputLabel, TextField, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Form, Formik, FormikHelpers } from 'formik';
-import { DatePicker, LocalizationProvider } from '@mui/lab';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { Profile } from '../../interface/Profile';
+import { useStyles } from './useStyles';
+
+interface DropDateTime {
+  dropInDate: Date;
+  dropInTime: string;
+  dropOffDate: Date;
+  dropOffTime: string;
+}
 
 interface Props {
   className?: string;
   profile: Profile;
-  handleSubmit: (
-    {
-      dropInDate,
-      dropInTime,
-      dropOffDate,
-      dropOffTime,
-    }: {
-      dropInDate: Date;
-      dropInTime: string;
-      dropOffDate: Date;
-      dropOffTime: string;
-    },
-    {
-      setStatus,
-      setSubmitting,
-    }: FormikHelpers<{
-      dropInDate: Date;
-      dropInTime: string;
-      dropOffDate: Date;
-      dropOffTime: string;
-    }>,
-  ) => void;
+  handleSubmit: (dropDateTime: DropDateTime, { setStatus, setSubmitting }: FormikHelpers<DropDateTime>) => void;
 }
 
 const getTimes = (hour: number) => {
