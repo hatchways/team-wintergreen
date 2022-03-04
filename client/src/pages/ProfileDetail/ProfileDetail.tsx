@@ -1,7 +1,8 @@
 import { LocationOn } from '@mui/icons-material';
-import { Avatar, Card, CircularProgress, Grid, Typography } from '@mui/material';
+import { Avatar, Card, CircularProgress, Grid, Snackbar, Typography } from '@mui/material';
 import { FormikHelpers } from 'formik';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import ProfileGallery from '../../components/ProfileGallery/ProfileGallery';
 import RequestForm from '../../components/RequestForm/RequestForm';
 import { useAuth } from '../../context/useAuthContext';
@@ -14,16 +15,20 @@ import { useStyles } from './useStyles';
 const ProfileDetail = (): JSX.Element => {
   const classes = useStyles();
   const { loggedInUser } = useAuth();
+  const { profileId } = useParams<{ profileId: string }>();
   const [profile, setProfile] = useState<Profile>();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
     !profile &&
-      loadProfile('6204aa0e6d1e83d0824f9b17').then((data) => {
+      loadProfile(profileId).then((data) => {
         if (data.success) {
           setProfile(data.success.profile);
+        } else {
+          setSnackbarOpen(true);
         }
       });
-  }, [profile]);
+  }, [profile, profileId]);
 
   const handleSubmit = (
     {
@@ -57,8 +62,6 @@ const ProfileDetail = (): JSX.Element => {
 
       makeBooking(bookingInfo);
       setSubmitting(false);
-    } else {
-      // add a snake bar for request login
     }
   };
 
@@ -102,6 +105,7 @@ const ProfileDetail = (): JSX.Element => {
       <Grid item md={3}>
         <RequestForm className={classes.card} profile={profile} handleSubmit={handleSubmit} />
       </Grid>
+      <Snackbar open={snackbarOpen} autoHideDuration={1000} message="Profile not found" />
     </Grid>
   ) : (
     <CircularProgress />
