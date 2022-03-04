@@ -1,13 +1,12 @@
-import { useAuth } from '../../context/useAuthContext';
-import { Box, Button, CircularProgress, Grid, List, ListItem, Paper, Typography } from '@mui/material';
+import { Box, CircularProgress, Grid, List, ListItem, Paper, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import AvatarDisplay from '../../components/AvatarDisplay/AvatarDisplay';
-import { useStyles } from './useStyles';
-import BookingSlot, { getBookingTime } from './BookingSlot/BookingSlot';
-import { BookingInfo } from '../../interface/BookingInfo';
-import SettingsIcon from '@mui/icons-material/Settings';
 import Calendar from 'react-calendar';
+import { useAuth } from '../../context/useAuthContext';
 import { getBookings } from '../../helpers/APICalls/bookingInfo';
+import { BookingInfo } from '../../interface/BookingInfo';
+import BookingSlot from './BookingSlot/BookingSlot';
+import NextBooking from './NextBooking/NextBooking';
+import { useStyles } from './useStyles';
 
 export default function Booking(): JSX.Element {
   const classes = useStyles();
@@ -19,9 +18,7 @@ export default function Booking(): JSX.Element {
   const [bookingDates, setBookingDates] = useState<Date[]>([]);
 
   useEffect(() => {
-    !noBookingInfo &&
-      !currentBookingInfos.length &&
-      !pastBookingInfos.length &&
+    if (!noBookingInfo && !currentBookingInfos.length && !pastBookingInfos.length) {
       getBookings().then((data) => {
         if (data.success) {
           const bookingInfos = data.success.bookingInfos;
@@ -59,6 +56,7 @@ export default function Booking(): JSX.Element {
           console.error({ data });
         }
       });
+    }
   }, [noBookingInfo, currentBookingInfos, pastBookingInfos, loggedInUser]);
 
   useEffect(() => {
@@ -77,27 +75,7 @@ export default function Booking(): JSX.Element {
           <Grid item>
             <Paper elevation={12} className={classes.paperContainer}>
               {nextBookingInfo ? (
-                <Grid container>
-                  <Grid item md={11}>
-                    <Typography className={classes.label} variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-                      Your next booking:
-                    </Typography>
-                    <Typography className={classes.label} variant="h6">
-                      {getBookingTime(nextBookingInfo.startDate, nextBookingInfo.endDate)}
-                    </Typography>
-                    <Box display="flex" flexDirection="row" alignItems="center">
-                      <AvatarDisplay loggedIn={!!loggedInUser} user={nextBookingInfo.petOwner} />
-                      <Typography variant="h6" sx={{ margin: '10px', fontWeight: 'bold' }}>
-                        {loggedInUser?.name}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item md={1}>
-                    <Button className={classes.settingButton} sx={{ minWidth: '100%' }}>
-                      <SettingsIcon sx={{ color: 'gray' }} />
-                    </Button>
-                  </Grid>
-                </Grid>
+                <NextBooking info={nextBookingInfo} />
               ) : (
                 <Typography variant="h6" sx={{ margin: '10px', fontWeight: 'bold' }}>
                   There is no booking for you.
