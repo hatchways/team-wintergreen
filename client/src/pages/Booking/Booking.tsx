@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Grid, List, ListItem, Paper, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
+import BookingCalendar from '../../components/BookingCalendar/BookingCalendar';
 import { useAuth } from '../../context/useAuthContext';
 import { getBookings } from '../../helpers/APICalls/bookingInfo';
 import { BookingInfo } from '../../interface/BookingInfo';
@@ -125,16 +125,7 @@ export default function Booking(): JSX.Element {
       </Grid>
       <Grid item md={4}>
         <Paper elevation={12} className={classes.paperContainer}>
-          <Calendar
-            className={classes.calendar}
-            value={nextBookingInfo?.startDate}
-            locale="en-US"
-            tileClassName={({ date }) => {
-              return bookingDates.find((bookingDate) => bookingDate.toLocaleDateString() === date.toLocaleDateString())
-                ? classes.activeDate
-                : classes.inactiveDate;
-            }}
-          />
+          <BookingCalendar bookingDates={bookingDates} />
         </Paper>
       </Grid>
     </Grid>
