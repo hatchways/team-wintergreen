@@ -68,6 +68,13 @@ export default function Booking(): JSX.Element {
     }
   }, [currentBookingInfos]);
 
+  function updateBookingInfo(newBookingInfo: BookingInfo) {
+    const bookingInfos = currentBookingInfos;
+    const target = bookingInfos.findIndex((info) => info._id === newBookingInfo._id);
+    bookingInfos[target].status = newBookingInfo.status;
+    setCurrentBookingInfos(bookingInfos);
+  }
+
   return currentBookingInfos.length || pastBookingInfos.length || noBookingInfo || nextBookingInfo ? (
     <Grid container direction="row" justifyContent="space-evenly" className={classes.root}>
       <Grid item md={5}>
@@ -93,7 +100,12 @@ export default function Booking(): JSX.Element {
                     </Typography>
                     {currentBookingInfos.length ? (
                       currentBookingInfos.map((bookingInfo) => (
-                        <BookingSlot bookingInfo={bookingInfo} key={bookingInfo._id} updatable={true} />
+                        <BookingSlot
+                          bookingInfo={bookingInfo}
+                          key={bookingInfo._id}
+                          updatable={true}
+                          updateBookingInfo={updateBookingInfo}
+                        />
                       ))
                     ) : (
                       <Typography variant="h6" sx={{ margin: '10px', fontWeight: 'bold' }}>

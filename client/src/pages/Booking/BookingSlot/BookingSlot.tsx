@@ -1,36 +1,43 @@
-import { Box, Button, Card, CardContent, Grid, Menu, MenuItem, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { BookingInfo } from '../../../interface/BookingInfo';
-import AvatarDisplay from '../../../components/AvatarDisplay/AvatarDisplay';
-import { useStyles } from './useStyles';
+import { Box, Button, Card, CardContent, Grid, Menu, MenuItem, Snackbar, Typography } from '@mui/material';
 import React, { Key, SyntheticEvent, useState } from 'react';
+import AvatarDisplay from '../../../components/AvatarDisplay/AvatarDisplay';
 import { updateBooking } from '../../../helpers/APICalls/bookingInfo';
+import { BookingInfo } from '../../../interface/BookingInfo';
+import { useStyles } from './useStyles';
 
 interface Props {
   bookingInfo: BookingInfo;
   key: Key | null | undefined;
   updatable: boolean;
+  updateBookingInfo?: (newBookingInfo: BookingInfo) => void;
 }
 
 const BookingSlot = (props: Props): JSX.Element => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openSetting = Boolean(anchorEl);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setOpenSnackbar(false);
   };
 
   const updateBookingInfo = (event: SyntheticEvent) => {
-    if (event.currentTarget.textContent === 'Accept') {
-      props.bookingInfo.status = 'accepted';
-      updateBooking(props.bookingInfo._id, { status: 'accepted' });
-    } else if (event.currentTarget.textContent === 'Decline') {
-      props.bookingInfo.status = 'declined';
-      updateBooking(props.bookingInfo._id, { status: 'declined' });
-    }
+    event.currentTarget.textContent === 'Accept'
+      ? (props.bookingInfo.status = 'accepted')
+      : (props.bookingInfo.status = 'declined');
+
+    updateBooking(props.bookingInfo._id, { status: props.bookingInfo.status }).then((data) => {
+      if (props.updateBookingInfo && data.success?.bookingInfo) {
+        props.updateBookingInfo(data.success.bookingInfo);
+      }
+      setOpenSnackbar(true);
+    });
     setAnchorEl(null);
   };
 
@@ -68,12 +75,11 @@ const BookingSlot = (props: Props): JSX.Element => {
           </Button>
           <Menu open={openSetting} anchorEl={anchorEl} onClose={handleClose}>
             <MenuItem onClick={updateBookingInfo}>Accept</MenuItem>
-            <MenuItem value={2} onClick={updateBookingInfo}>
-              Decline
-            </MenuItem>
+            <MenuItem onClick={updateBookingInfo}>Decline</MenuItem>
           </Menu>
         </Grid>
       </Grid>
+      <Snackbar open={openSnackbar} autoHideDuration={1000} onClose={handleClose} message="Booking status updated" />
     </Card>
   );
 };

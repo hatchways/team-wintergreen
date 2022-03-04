@@ -47,23 +47,15 @@ exports.makeBooking = asyncHandler(async (req, res, next) => {
     },
   });
 });
-const booking = new Booking(req.booking);
-await Booking.create(booking);
-
-res.status(200).json({
-  success: {
-    bookingInfo: booking,
-  },
-});
 
 // @route PATCH /bookings
 // @desc Update booking with approved or decline
 // @access Private
 exports.updateBooking = asyncHandler(async (req, res, next) => {
-  const { status } = req.body;
+  const { status } = req.body.data;
   const booking = await Booking.findByIdAndUpdate(
     req.params.bookingId,
-    status,
+    { status: status },
     { returnDocument: "after" }
   );
 
