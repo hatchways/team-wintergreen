@@ -1,13 +1,13 @@
-const colors = require("colors");
-const path = require("path");
-const http = require("http");
-const express = require("express");
-const socketio = require("socket.io");
-const { notFound, errorHandler } = require("./middleware/error");
-const connectDB = require("./db");
-const { join } = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
+const colors = require( "colors" );
+const path = require( "path" );
+const http = require( "http" );
+const express = require( "express" );
+const socketio = require( "socket.io" );
+const { notFound, errorHandler } = require( "./middleware/error" );
+const connectDB = require( "./db" );
+const { join } = require( "path" );
+const cookieParser = require( "cookie-parser" );
+const logger = require( "morgan" );
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const { uploadFile } = require("./utils/s3");
@@ -20,6 +20,7 @@ const availabilityRouter = require("./routes/availability");
 const bookingRouter = require("./routes/booking");
 const stripeRouter = require("./routes/stripe");
 const imageRouter = require("./routes/image");
+
 const { json, urlencoded } = express;
 
 connectDB();
