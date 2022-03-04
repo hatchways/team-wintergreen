@@ -15,7 +15,7 @@ export async function loadProfile(userId: string): Promise<ProfileApiDate> {
     }));
 }
 
-export interface ProfileApiDate {
+export interface ProfileApiData {
   success: {
     profile: Profile;
   };
