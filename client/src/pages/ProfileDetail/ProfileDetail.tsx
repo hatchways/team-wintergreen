@@ -1,15 +1,15 @@
-import { Avatar, Card, CircularProgress, Grid, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useStyles } from './useStyles';
 import { LocationOn } from '@mui/icons-material';
-import RequestForm from '../../components/RequestForm/RequestForm';
+import { Avatar, Card, CircularProgress, Grid, Typography } from '@mui/material';
 import { FormikHelpers } from 'formik';
-import { makeBooking } from '../../helpers/APICalls/bookingInfo';
-import { BookingInfo } from '../../interface/BookingInfo';
-import { useAuth } from '../../context/useAuthContext';
-import { loadProfile } from '../../helpers/APICalls/loadProfile';
-import { Profile } from '../../interface/Profile';
+import { useEffect, useState } from 'react';
 import ProfileGallery from '../../components/ProfileGallery/ProfileGallery';
+import RequestForm from '../../components/RequestForm/RequestForm';
+import { useAuth } from '../../context/useAuthContext';
+import { makeBooking } from '../../helpers/APICalls/bookingInfo';
+import { loadProfile } from '../../helpers/APICalls/loadProfile';
+import { BookingInfo } from '../../interface/BookingInfo';
+import { Profile } from '../../interface/Profile';
+import { useStyles } from './useStyles';
 
 const ProfileDetail = (): JSX.Element => {
   const classes = useStyles();
@@ -47,18 +47,12 @@ const ProfileDetail = (): JSX.Element => {
 
     if (loggedInUser && profile) {
       const bookingInfo: BookingInfo = {
-        sitter: profile.userId,
-        startDate: dropInDate,
-        endDate: dropOffDate,
-        status: 'pending',
-      };
         _id: undefined,
-        petOwner: loggedInUser,
         sitter: profile.userId,
         startDate: dropInDate,
         endDate: dropOffDate,
         status: 'pending',
-        paid: true,
+        paid: false,
       };
 
       makeBooking(bookingInfo);
