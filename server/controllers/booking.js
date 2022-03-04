@@ -31,15 +31,15 @@ exports.getBookings = asyncHandler(async (req, res, next) => {
 // @desc Create a new booking
 // @access Private
 exports.makeBooking = asyncHandler(async (req, res, next) => {
-  const {sitter, startDate, endDate} = req.booking
+  const { sitter, startDate, endDate } = req.booking;
   const booking = new Booking({
     sitter,
     startDate,
     endDate,
-    petOwner: req.user.id
+    petOwner: req.user.id,
   });
-  
- const newBooking = await Booking.create(booking);
+
+  const newBooking = await Booking.create(booking);
 
   res.status(200).json({
     success: {
@@ -47,14 +47,13 @@ exports.makeBooking = asyncHandler(async (req, res, next) => {
     },
   });
 });
-  const booking = new Booking(req.booking);
-  await Booking.create(booking);
+const booking = new Booking(req.booking);
+await Booking.create(booking);
 
-  res.status(200).json({
-    success: {
-      bookingInfo: booking,
-    },
-  });
+res.status(200).json({
+  success: {
+    bookingInfo: booking,
+  },
 });
 
 // @route PATCH /bookings
@@ -68,8 +67,8 @@ exports.updateBooking = asyncHandler(async (req, res, next) => {
   );
 
   if (!booking) {
-    res.status(400);
-    throw new Error("Profile doesn't exist");
+    res.status(404);
+    throw new Error("Booking doesn't exist");
   }
 
   res.status(200).json({
