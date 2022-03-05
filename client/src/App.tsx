@@ -14,6 +14,7 @@ import { SnackBarProvider } from './context/useSnackbarContext';
 import { Navbar } from './components/Navbar/Navbar';
 import Settings from './pages/Settings/Settings';
 import NotFound from './pages/NotFound/NotFound';
+import Messages from './pages/Messages/Messages';
 import { AuthRoute } from './components/AuthRoute/AuthRoute';
 import Booking from './pages/Booking/Booking';
 import ProfileDetail from './pages/ProfileDetail/ProfileDetail';
@@ -52,6 +53,7 @@ function App(): JSX.Element {
                       <AuthRoute path="/profile/:profileId" component={ProfileDetail} />
                       <AuthRoute path="/profile-Listings" component={ProfileLists} />
                       <Route path="/availability" component={Availability} />
+                      <Route path="/messages" component={Messages} />
                       <Route path="*">
                         <NotFound />
                       </Route>
