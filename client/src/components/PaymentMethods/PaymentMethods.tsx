@@ -1,10 +1,10 @@
-import { Box, Button, Typography } from '@mui/material';
-import { useStyles } from './useStyle';
+import { Box, Button, Snackbar, Typography } from '@mui/material';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { PaymentMethod, StripeCardElement } from '@stripe/stripe-js';
 import { useState } from 'react';
-import PaymentCard from './PaymentCard/PaymentCard';
 import AddCardForm from './AddCardForm/AddCardForm';
+import PaymentCard from './PaymentCard/PaymentCard';
+import { useStyles } from './useStyle';
 
 const PaymentMethods = (): JSX.Element => {
   const classes = useStyles();
@@ -12,6 +12,8 @@ const PaymentMethods = (): JSX.Element => {
   const elements = useElements();
   const [cardElement, setCardElement] = useState<PaymentMethod>();
   const [openAddPayment, setOpenAddPayment] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const handleSubmit = async (value: { name: string }) => {
     if (stripe && elements) {
@@ -23,6 +25,10 @@ const PaymentMethods = (): JSX.Element => {
         })
         .then((data) => {
           setCardElement(data.paymentMethod);
+        })
+        .catch((error) => {
+          setSnackbarOpen(true);
+          setSnackbarMessage(error);
         });
     }
   };
@@ -52,6 +58,7 @@ const PaymentMethods = (): JSX.Element => {
         Add new payment profile
       </Button>
       <AddCardForm open={openAddPayment} close={handleAddPaymentClose} saveCard={handleSubmit} />
+      <Snackbar open={snackbarOpen} autoHideDuration={1000} message={snackbarMessage} />
     </Box>
   );
 };
