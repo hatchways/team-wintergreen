@@ -22,6 +22,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Settings, Logout, Person, NotificationsActiveOutlined } from '@mui/icons-material';
 import { Notification } from '../../interface/Notification';
 import NotificationsMenuItem from '../Notification/NotificationsMenuItem';
+import Avatar from '@mui/material/Avatar';
 
 const NavbarButton = styled(Button)({
   padding: '15px 0',
@@ -172,7 +173,12 @@ const Navbar: React.FC = () => {
                   onClick={handleMenuOpen}
                   color="inherit"
                 >
-                  <img style={{ width: 50 }} src={`https://robohash.org/${loggedInUser.email}`} />
+                  {profile &&
+                    (profile.photo == '' ? (
+                      <img style={{ width: 50 }} src={`https://robohash.org/${loggedInUser.email}`} />
+                    ) : (
+                      <Avatar src={`/image/${profile.photo}`} sx={{ width: 50, height: 50, margin: 'auto' }} />
+                    ))}
                 </IconButton>
                 <Menu
                   id="menu-appbar"
