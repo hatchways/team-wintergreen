@@ -6,7 +6,7 @@ const ReviewSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
-  profileId: {
+  revieweeId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "User",
