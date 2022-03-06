@@ -35,6 +35,17 @@ const profileSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  tagLine: {
+    type: String,
+    default: ''
+  },
+  price: {
+    type: String,
+  },
+  rating: {
+    type: String,
+    default: 0,
+  },
   activeSchedule:{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Availability",
@@ -50,6 +61,15 @@ const profileSchema = new mongoose.Schema({
       ref: 'Review',
     }],
     validate: [arrayLimit, '{PATH} exceeds the limit of 10']
+  },
+  coverImage: {
+    type: String,
+    default:
+      "https://i.pinimg.com/originals/4f/0a/2e/4f0a2ea336fb5ba3f6252f77fd02e7ed.jpg",
+  },
+  gallery: {
+    type: [String],
+    default: [],
   },
 });
 
