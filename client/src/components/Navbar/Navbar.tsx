@@ -12,14 +12,13 @@ import {
   Menu,
   MenuItem as DropdownMenuItem,
   styled,
-  Badge,
 } from '@mui/material';
 import { AccountType } from '../../types/AccountType';
 
 import lovingSitterLogo from '../../images/logo.svg';
 import { useStyles } from './useStyles';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Settings, Logout, Person, NotificationsActiveOutlined } from '@mui/icons-material';
+import { Settings, Logout, Person } from '@mui/icons-material';
 import { Notification } from '../../interface/Notification';
 import NotificationsMenuItem from '../Notification/NotificationsMenuItem';
 
@@ -97,7 +96,9 @@ const MenuItem: React.FC<{
   return (
     <Grid key={resource} sx={{ textAlign: 'center' }} xs={2} justifySelf="flex-end" item>
       <NavLink className={classes.navbarItem} to={resource}>
-        {item instanceof Function ? item(notifications as any, readNotifications as any) : item}
+        {notifications &&
+          readNotifications &&
+          (item instanceof Function ? item(notifications, readNotifications) : item)}
       </NavLink>
     </Grid>
   );
@@ -109,7 +110,7 @@ const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { loggedInUser, profile, logout } = useAuth();
   const open = Boolean(anchorEl);
-  const { notifications, pushNotification, readNotifications } = useNotificationContext();
+  const { notifications, readNotifications } = useNotificationContext();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

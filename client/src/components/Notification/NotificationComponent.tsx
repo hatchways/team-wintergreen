@@ -11,7 +11,10 @@ interface Props {
   handleClose: () => void;
 }
 
-const NotificationComponent = ({ notification, handleClose }: Props) => {
+const NotificationComponent: ({ notification, handleClose }: Props) => JSX.Element = ({
+  notification,
+  handleClose,
+}: Props) => {
   const classes = useStyles();
   const { createdBy } = notification;
   const [photo, setPhoto] = useState('');

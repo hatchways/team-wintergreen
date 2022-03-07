@@ -6,7 +6,10 @@ import { useStyles } from './useStyles';
 import { getResource, getWindowDimensions, unreadNotifications } from '../../helpers/NoficationsMenuItemHelper';
 import NotificationComponent from './NotificationComponent';
 
-const NotificationsMenuItem = (notifications: [Notification], readNotifications: () => void) => {
+const NotificationsMenuItem: (notifications: [Notification], readNotifications: () => void) => JSX.Element = (
+  notifications: [Notification],
+  readNotifications: () => void,
+) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const classes = useStyles();

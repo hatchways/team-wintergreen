@@ -3,7 +3,7 @@ import { useAuth } from '../../context/useAuthContext';
 import { CircularProgress } from '@mui/material';
 import React from 'react';
 
-export const AuthRoute = (props: RouteProps) => {
+export const AuthRoute: (props: RouteProps) => JSX.Element = (props: RouteProps) => {
   const { loggedInUser } = useAuth();
   if (!loggedInUser) {
     return <CircularProgress />;
@@ -11,7 +11,7 @@ export const AuthRoute = (props: RouteProps) => {
   return loggedInUser ? <Route {...props} /> : <Redirect to="/login" />;
 };
 
-export const RedirectRoute = (props: RouteProps) => {
+export const RedirectRoute: (props: RouteProps) => JSX.Element = (props: RouteProps) => {
   const { loggedInUser } = useAuth();
   return loggedInUser ? <Redirect to="/dashboard" /> : <Route {...props} />;
 };
