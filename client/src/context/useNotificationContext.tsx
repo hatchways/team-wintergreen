@@ -1,6 +1,5 @@
-import { useState, useContext, createContext, FunctionComponent, SyntheticEvent, useCallback, useEffect } from 'react';
+import { useState, useContext, createContext, FunctionComponent, useCallback, useEffect } from 'react';
 import { Notification } from '../interface/Notification';
-import { useAuth } from './useAuthContext';
 import { useSocket } from './useSocketContext';
 import getNotifications from '../helpers/APICalls/getNofitications';
 import postNotification from '../helpers/APICalls/postNotification';
@@ -26,8 +25,7 @@ export const NotificationContext = createContext<NotificationContext>({
 });
 
 export const NotificationContextProvider: FunctionComponent = ({ children }): JSX.Element => {
-  const [notifications, setNotifications] = useState<[Notification] | undefined>(undefined);
-  const { profile } = useAuth();
+  const [notifications, setNotifications] = useState<[Notification]>();
   const { socket } = useSocket();
   const { updateSnackBarMessage } = useSnackBar();
 
@@ -57,13 +55,13 @@ export const NotificationContextProvider: FunctionComponent = ({ children }): JS
       if (notifications && notifications.length) {
         const newNotifications = [...notifications];
         newNotifications.forEach((notification) => (notification.read = true));
-        setNotifications(newNotifications as any);
+        setNotifications(newNotifications as [Notification]);
       }
     }
   }, [notifications]);
 
   useEffect(() => {
-    const updateNotifications = async (userId: string) => {
+    const updateNotifications = async () => {
       await getNotifications().then((data: NotificationApiData) => {
         if (data.success) {
           const notifications = (data.success as NotificationApiDataGetAll).notifications;
@@ -79,8 +77,8 @@ export const NotificationContextProvider: FunctionComponent = ({ children }): JS
         }
       });
     };
-    profile && updateNotifications(profile.userId);
-  }, [profile, socket, updateSnackBarMessage]);
+    updateNotifications();
+  }, [socket, updateSnackBarMessage]);
 
   return (
     <NotificationContext.Provider value={{ notifications, pushNotification, readNotifications }}>

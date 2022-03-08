@@ -1,7 +1,6 @@
 import { makeStyles } from '@mui/styles';
-import { Theme } from '@mui/material';
 
-export const useStyles = makeStyles((theme: Theme) => ({
+export const useStyles = makeStyles(() => ({
   paymentCard: {
     margin: '20px 5px',
     width: '250px',
