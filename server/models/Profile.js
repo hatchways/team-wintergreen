@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { arrayLimit } = require("../utils/helpers");
 
 const profileSchema = new mongoose.Schema({
   userId: {
@@ -53,6 +54,13 @@ const profileSchema = new mongoose.Schema({
     type: String,
     enum: ["pet_sitter", "pet_owner"],
     default: "pet_owner",
+  },
+  reviews: {
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Review',
+    }],
+    validate: [arrayLimit, '{PATH} exceeds the limit of 10']
   },
   coverImage: {
     type: String,

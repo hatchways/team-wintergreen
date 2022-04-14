@@ -1,3 +1,7 @@
+const arrayLimit = (val) => {
+    return val.length <= 10;
+}
+
 const filterInPlace = (a, condition) => {
     let i = 0, j = 0;
     while (i < a.length) {
@@ -9,4 +13,4 @@ const filterInPlace = (a, condition) => {
     return a;
 }
 
-module.exports = { filterInPlace };
+module.exports = { arrayLimit, filterInPlace };
