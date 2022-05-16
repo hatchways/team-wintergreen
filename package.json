@@ -6,5 +6,8 @@
   },
   "scripts": {
     "prepare": "husky install"
+  },
+  "dependencies": {
+    "react-drag-drop-container-typescript": "^1.4.0"
   }
 }
