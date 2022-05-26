@@ -3,7 +3,6 @@ import useStyle from './useStyles';
 import React, { useState } from 'react';
 import ProfileCard from './ProfileCard';
 import { Profile } from '../../interface/Profile';
-import { DragDropContainer, DropTarget } from 'react-drag-drop-container-typescript';
 interface Props {
   profiles: Profile[];
 }
@@ -20,15 +19,11 @@ const SearchDisplay = ({ profiles }: Props) => {
       alignItems="center"
       justifyContent="center"
     >
-      <DropTarget targetKey="foo">
-        {profiles.map((card, index) => (
-          <DragDropContainer key={index} targetKey="foo">
-            <Box key={index} className={classes.card}>
-              <ProfileCard name={`${card}`} />
-            </Box>
-          </DragDropContainer>
-        ))}
-      </DropTarget>
+      {profiles.map((card, index) => (
+        <Box key={index} className={classes.card}>
+          <ProfileCard name={`${card}`} />
+        </Box>
+      ))}
     </Grid>
   );
 };

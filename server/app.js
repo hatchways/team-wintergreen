@@ -56,7 +56,7 @@ io.on("connection", (socket) => {
     filterInPlace(onlineUsers, (user) => {
       return user.userId !== socket.decoded.id
     });
-    console.log(`User ${socket.decoded.id} is offline.`);
+    //console.log(`User ${socket.decoded.id} is offline.`);
   });
 });
 
