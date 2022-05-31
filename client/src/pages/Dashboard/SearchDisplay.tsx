@@ -3,10 +3,11 @@ import useStyle from './useStyles';
 import React, { useState } from 'react';
 import ProfileCard from './ProfileCard';
 import { Profile } from '../../interface/Profile';
+import RLDD from 'react-list-drag-and-drop/lib/RLDD';
 interface Props {
   profiles: Profile[];
 }
-const SearchDisplay = ({ profiles }: Props) => {
+function SearchDisplay({ profiles }: Props): JSX.Element {
   const classes = useStyle();
 
   return (
@@ -26,6 +27,6 @@ const SearchDisplay = ({ profiles }: Props) => {
       ))}
     </Grid>
   );
-};
+}
 
 export default SearchDisplay;
